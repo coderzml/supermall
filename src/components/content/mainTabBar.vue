@@ -2,17 +2,17 @@
   <div>
     <TabBar>
       <TabBarItem path="/home" BarColor="deepPink">
-        <img slot="img" src="../../assets/img/tabbar/home.svg" alt />
-        <img slot="img2" src="../../assets/img/tabbar/home_active.svg" alt />
+        <img slot="img" src="~assets/img/tabbar/home.svg" alt />
+        <img slot="img2" src="~assets/img/tabbar/home_active.svg" alt />
         <div slot="text">首页</div>
       </TabBarItem>
       <TabBarItem path="/category" BarColor="deepPink">
-        <img slot="img" src="../../assets/img/tabbar/category.svg" alt />
-        <img slot="img2" src="../../assets/img/tabbar/category_active.svg" alt />
+        <img slot="img" src="~assets/img/tabbar/category.svg" alt />
+        <img slot="img2" src="~assets/img/tabbar/category_active.svg" alt />
         <div slot="text">分类</div>
       </TabBarItem>
       <TabBarItem path="/shopcart" BarColor="deepPink">
-        <img slot="img" src="@/assets/img/tabbar/shopcart.svg" alt />
+        <img slot="img" src="~/assets/img/tabbar/shopcart.svg" alt />
         <img slot="img2" src="~assets/img/tabbar/shopcart_active.svg" alt />
         <div slot="text">购物车</div>
       </TabBarItem>
@@ -25,8 +25,8 @@
   </div>
 </template>
 <script>
-import TabBar from "../common/TabBar/TabBar";
-import TabBarItem from "../common/TabBar/TabBarItem";
+import TabBar from "components/common/TabBar/TabBar";
+import TabBarItem from "components/common/TabBar/TabBarItem";
 export default {
   components: {
     TabBar,

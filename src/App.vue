@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import mainTabBar from "./components/content/mainTabBar";
+import mainTabBar from "components/content/mainTabBar";
 export default {
   components: {
     mainTabBar
@@ -13,5 +13,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import url("./assets/css/base.css");
+@import url("assets/css/base.css");
 </style>
