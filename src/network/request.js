@@ -53,7 +53,6 @@ import axios from 'axios';
 //     })
 //   })
 // }
-
 // 第四种封装 简化第三种封装
 // 导出这个函数
 export function request(config) {
@@ -61,7 +60,7 @@ export function request(config) {
   // 这里因为baseurl不一样我想传入的内容有时候是带baseurl的有时是不带的所以加个判断
   var instance = axios.create({
     // 这里面写基础配置
-    baseURL: "http://123.207.32.32:8000/",
+    // baseURL: "http://123.207.32.32:8000/",
     timeout: 5000
   })
 
