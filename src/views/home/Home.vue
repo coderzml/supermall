@@ -23,6 +23,7 @@
       </div>
     </TabControl>-->
     <TabControl :titles="['流行','新款','精选']" class="xiding"></TabControl>
+    <GoodsList :goods="goods.pop.list"></GoodsList>
     <ul>
       <li>列表</li>
       <li>列表</li>
@@ -136,6 +137,8 @@ import TabControl from "components/content/tabcontrol/TabControl";
 import HomeSwiper from "./childComponnets/HomeSwiper";
 import Recommend from "./childComponnets/Recommend";
 import Feature from "./childComponnets/Feature";
+import GoodsList from "components/content/goods/GoodsList";
+
 // 网络请求
 import { getHomeData, getHomeGoods } from "network/home";
 export default {
@@ -155,7 +158,8 @@ export default {
     TabControl,
     HomeSwiper,
     Recommend,
-    Feature
+    Feature,
+    GoodsList
   },
   created() {
     // 请求banner数据
@@ -201,5 +205,7 @@ export default {
 .xiding {
   position: sticky;
   top: 44px;
+  background-color: #fff;
+  z-index: 9;
 }
 </style>
