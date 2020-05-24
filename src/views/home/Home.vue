@@ -10,39 +10,174 @@
     <Recommend :recommends="recommends"></Recommend>
     <!-- content -->
     <Feature></Feature>
+    <!-- tabcontrol -->
+    <!-- <TabControl>
+      <div slot="left">
+        <span>流行</span>
+      </div>
+      <div slot="center">
+        <span>新品</span>
+      </div>
+      <div slot="right">
+        <span>精选</span>
+      </div>
+    </TabControl>-->
+    <TabControl :titles="['流行','新款','精选']" class="xiding"></TabControl>
+    <ul>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+    </ul>
   </div>
 </template>
 
 <script>
-// 组件
+// 独立组件
 import NavBar from "components/common/nav-bar/NavBar";
+import TabControl from "components/content/tabcontrol/TabControl";
+// 子组件
 import HomeSwiper from "./childComponnets/HomeSwiper";
 import Recommend from "./childComponnets/Recommend";
 import Feature from "./childComponnets/Feature";
-
 // 网络请求
-import { getHomeData } from "network/home";
+import { getHomeData, getHomeGoods } from "network/home";
 export default {
   data() {
     return {
       banners: [],
-      recommends: []
+      recommends: [],
+      goods: {
+        pop: { page: 0, list: [] },
+        new: { page: 0, list: [] },
+        sell: { page: 0, list: [] }
+      }
     };
   },
   components: {
     NavBar,
+    TabControl,
     HomeSwiper,
     Recommend,
     Feature
   },
   created() {
-    getHomeData().then(res => {
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-
-      console.log(res);
-      console.log(res.data.banner.list);
-    });
+    // 请求banner数据
+    this.getHomeData();
+    // 请求goods数据
+    this.getHomeGoods("pop");
+    this.getHomeGoods("new");
+    this.getHomeGoods("sell");
+  },
+  methods: {
+    getHomeGoods(type) {
+      let page = this.goods[type].page + 1;
+      getHomeGoods(type, page).then(res => {
+        this.goods[type].list.push(...res.data.list);
+      });
+    },
+    getHomeData() {
+      getHomeData().then(res => {
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
+      });
+    }
   }
 };
 </script>
@@ -60,6 +195,11 @@ export default {
   z-index: 9;
 }
 .home {
-  padding: 44px 0 500px 0;
+  padding: 44px 0 0 0;
+}
+/* 给tabcontrol设置吸顶效果 */
+.xiding {
+  position: sticky;
+  top: 44px;
 }
 </style>
