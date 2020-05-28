@@ -36,6 +36,8 @@ export default {
     // 点击变红
     current(index) {
       this.indexCurrent = index;
+      // 把下标传出去用于判断显示那组数据
+      this.$emit("tabControlClick", index);
     }
   }
 };

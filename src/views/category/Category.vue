@@ -1,10 +1,123 @@
 <template>
-  <h2>分类</h2>
+  <div class="wap">
+    <ul>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+      <li>123</li>
+    </ul>
+  </div>
 </template>
 
 <script>
-export default {};
+import BScroll from "better-scroll";
+export default {
+  mounted() {
+    new BScroll(".wap", {});
+  }
+};
 </script>
 
 <style>
+.wap {
+  height: 100px;
+  background-color: pink;
+  overflow: hidden;
+}
 </style>

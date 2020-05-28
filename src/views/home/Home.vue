@@ -22,8 +22,8 @@
         <span>精选</span>
       </div>
     </TabControl>-->
-    <TabControl :titles="['流行','新款','精选']" class="xiding"></TabControl>
-    <GoodsList :goods="goods.pop.list"></GoodsList>
+    <TabControl :titles="['流行','新款','精选']" class="xiding" @tabControlClick="tabControlClick"></TabControl>
+    <GoodsList :goods="goods[currentType].list"></GoodsList>
     <ul>
       <li>列表</li>
       <li>列表</li>
@@ -150,7 +150,8 @@ export default {
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
-      }
+      },
+      currentType: "pop"
     };
   },
   components: {
@@ -170,6 +171,12 @@ export default {
     this.getHomeGoods("sell");
   },
   methods: {
+    // 组件通信
+    tabControlClick(index) {
+      let type = ["pop", "new", "sell"];
+      this.currentType = type[index];
+    },
+    // 数据请求
     getHomeGoods(type) {
       let page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(res => {
