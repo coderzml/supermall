@@ -108,13 +108,18 @@
 <script>
 import BScroll from "better-scroll";
 export default {
+  data() {
+    return {
+      scroll: null
+    };
+  },
   mounted() {
-    new BScroll(".wap", {});
+    this.scroll = new BScroll(".wap", {});
   }
 };
 </script>
 
-<style>
+<style scoped>
 .wap {
   height: 100px;
   background-color: pink;
