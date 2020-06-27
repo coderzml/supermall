@@ -4,7 +4,14 @@
     <NavBar class="navfont">
       <div slot="center">购物街</div>
     </NavBar>
-    <scroll class="content" ref="scroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <!-- 轮播 -->
       <home-swiper :banners="banners"></home-swiper>
       <!-- 导航2 -->
@@ -26,7 +33,7 @@
       <TabControl :titles="['流行','新款','精选']" class="xiding" @tabControlClick="tabControlClick"></TabControl>
       <GoodsList :goods="goods[currentType].list"></GoodsList>
     </scroll>
-    <BackTop @click.native="backTop"></BackTop>
+    <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop>
   </div>
 </template>
 
@@ -54,7 +61,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: "pop"
+      currentType: "pop",
+      isShowBackTop: false
     };
   },
   components: {
@@ -86,6 +94,10 @@ export default {
       let page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
+        // 上拉完之后加载更多
+        this.goods[type].page += 1;
+        // 可以上拉多次
+        this.$refs.scroll.scroll.finishPullUp();
       });
     },
     getHomeData() {
@@ -96,6 +108,15 @@ export default {
     },
     backTop() {
       this.$refs.scroll.scrollTo(0, 0);
+    },
+    // 检测位置
+    contentScroll(position) {
+      // console.log(position);
+      this.isShowBackTop = -position.y > 1000;
+    },
+    // 上拉加载更多
+    loadMore() {
+      this.getHomeGoods(this.currentType);
     }
   }
 };
