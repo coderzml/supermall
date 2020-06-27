@@ -51,6 +51,8 @@ import BackTop from "components/content/backTop/BackTop";
 import { getHomeData, getHomeGoods } from "network/home";
 // scroll
 import scroll from "components/common/scroll/Scroll";
+// 工具
+import { debounce } from "common/utils";
 export default {
   data() {
     return {
@@ -83,6 +85,15 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  mounted() {
+    // 监听图片加载完毕
+    let refresh = debounce(this.$refs.scroll.refresh, 300);
+    this.$bus.$on("ItemImgLoad", () => {
+      // 每当接受请求 调用重新计算scroll高度
+      // this.$refs.scroll && this.$refs.scroll.refresh();
+      refresh();
+    });
+  },
   methods: {
     // 组件通信
     tabControlClick(index) {
@@ -97,7 +108,7 @@ export default {
         // 上拉完之后加载更多
         this.goods[type].page += 1;
         // 可以上拉多次
-        this.$refs.scroll.scroll.finishPullUp();
+        this.$refs.scroll && this.$refs.scroll.finishPullUp();
       });
     },
     getHomeData() {
@@ -107,7 +118,7 @@ export default {
       });
     },
     backTop() {
-      this.$refs.scroll.scrollTo(0, 0);
+      this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0);
     },
     // 检测位置
     contentScroll(position) {

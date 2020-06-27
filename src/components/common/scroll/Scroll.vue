@@ -46,6 +46,15 @@ export default {
     // 点击返回顶部 引用
     scrollTo(x, y, time = 300) {
       this.scroll && this.scroll.scrollTo(x, y, time);
+    },
+    // 多次上拉加载更多
+    finishPullUp() {
+      this.scroll && this.scroll.finishPullUp();
+    },
+    // 计算滑动有效距离
+    refresh() {
+      console.log("----");
+      this.scroll && this.scroll.refresh();
     }
   }
 };
