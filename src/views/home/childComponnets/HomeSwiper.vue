@@ -2,7 +2,7 @@
   <Swiper>
     <SwiperItem v-for="(item,index) in banners" :key="index">
       <a :href="item.link">
-        <img :src="item.image" alt />
+        <img :src="item.image" @load="SwiperImgLoad" />
       </a>
     </SwiperItem>
   </Swiper>
@@ -22,6 +22,21 @@ export default {
   components: {
     Swiper,
     SwiperItem
+  },
+  data() {
+    return {
+      isLoad: false
+    };
+  },
+  methods: {
+    // 发送图片加载完事件
+    SwiperImgLoad() {
+      if (!this.isLoad) {
+        // this.$bus.$emit("SwiperImgLoad");
+        this.$emit("SwiperImgLoad");
+        this.isLoad = true;
+      }
+    }
   }
 };
 </script>

@@ -4,6 +4,14 @@
     <NavBar class="navfont">
       <div slot="center">购物街</div>
     </NavBar>
+    <TabControl
+      :titles="['流行','新款','精选']"
+      class="xiding"
+      @tabControlClick="tabControlClick"
+      ref="tabControl2"
+      :class="{fixed:isFixed}"
+      v-show="isFixed"
+    ></TabControl>
     <scroll
       class="content"
       ref="scroll"
@@ -13,7 +21,7 @@
       @pullingUp="loadMore"
     >
       <!-- 轮播 -->
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @SwiperImgLoad="SwiperLoad"></home-swiper>
       <!-- 导航2 -->
       <Recommend :recommends="recommends"></Recommend>
       <!-- content -->
@@ -30,7 +38,12 @@
         <span>精选</span>
       </div>
       </TabControl>-->
-      <TabControl :titles="['流行','新款','精选']" class="xiding" @tabControlClick="tabControlClick"></TabControl>
+      <TabControl
+        :titles="['流行','新款','精选']"
+        class="xiding"
+        @tabControlClick="tabControlClick"
+        ref="tabControl1"
+      ></TabControl>
       <GoodsList :goods="goods[currentType].list"></GoodsList>
     </scroll>
     <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop>
@@ -64,7 +77,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShowBackTop: false
+      isShowBackTop: false,
+      TabControl: 0,
+      isFixed: false,
+      scrollTop: 0
     };
   },
   components: {
@@ -93,12 +109,32 @@ export default {
       // this.$refs.scroll && this.$refs.scroll.refresh();
       refresh();
     });
+    // 事件总线的方式
+    // this.$bus.$on("SwiperImgLoad", () => {
+    //   console.log(123);
+    //   console.log(this.$refs.tabControl.$el.offsetTop);
+    // });
   },
+  // 路由处于活跃时 滑动到位置
+  activated() {
+    // console.log(this.scrollTop);
+    // this.$refs.scroll.scrollTo(0, this.scrollTop, 0);
+  },
+  // 路由处于不活跃时 记录当时的位置
+  deactivated() {
+    this.scrollTop = this.$refs.scroll.scroll.y;
+  },
+  // upload() {
+  //   console.log(456);
+  // },
   methods: {
     // 组件通信
     tabControlClick(index) {
       let type = ["pop", "new", "sell"];
       this.currentType = type[index];
+      // 修改tabcontrol的current
+      this.$refs.tabControl1.indexCurrent = index;
+      this.$refs.tabControl2.indexCurrent = index;
     },
     // 数据请求
     getHomeGoods(type) {
@@ -120,14 +156,22 @@ export default {
     backTop() {
       this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0);
     },
-    // 检测位置
+    // 检测scroll位置
     contentScroll(position) {
+      // 检测回到顶部
       // console.log(position);
       this.isShowBackTop = -position.y > 1000;
+      // 检测tabcontrol
+      this.isFixed = -position.y > this.TabControl;
     },
     // 上拉加载更多
     loadMore() {
       this.getHomeGoods(this.currentType);
+    },
+    // 轮播图片加载完毕
+    SwiperLoad() {
+      // 获取tabcontrol距离顶部
+      this.TabControl = this.$refs.tabControl1.$el.offsetTop;
     }
   }
 };
@@ -157,8 +201,17 @@ export default {
   z-index: 9;
 }
 .content {
-  height: calc(100% - 93px);
+  /* height: calc(100% - 93px); */
+  position: absolute;
+  top: 43px;
+  bottom: 49px;
   overflow: hidden;
-  margin-top: 44px;
+  /* margin-top: 44px; */
+}
+.fixed {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
 }
 </style>

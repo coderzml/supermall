@@ -53,7 +53,7 @@ export default {
     },
     // 计算滑动有效距离
     refresh() {
-      console.log("----");
+      // console.log("----");
       this.scroll && this.scroll.refresh();
     }
   }
