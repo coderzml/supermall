@@ -1,5 +1,5 @@
 <template>
-  <div id="Info" v-if="Object.keys(Goods.length !== 0)">
+  <div id="Info" v-if="Object.keys(Goods).length !== 0">
     <div class="title">
       [ {{Goods.name}} ]
       <span>{{Goods.title}}</span>
@@ -17,6 +17,12 @@
       <span>{{Goods.columns[0]}}</span>
       <span>{{Goods.columns[1]}}</span>
       <span>{{Goods.services[Goods.services.length -1].name}}</span>
+    </div>
+    <div class="tuihuo">
+      <span v-for="(item,index) in Goods.services" :key="index" class="tuihuo-item">
+        <img :src="item.icon" alt class="icon" />
+        <span class="icon-font">{{item.name}}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -51,7 +57,7 @@ export default {
 }
 .BaseInfo {
   display: flex;
-  margin-top: 20px;
+  margin-top: 10px;
   height: 30px;
   border-bottom: 1px solid #ccc;
 }
@@ -75,5 +81,33 @@ export default {
   /*让元素上浮一些: 使用相对定位即可*/
   position: relative;
   top: -8px;
+}
+.tuihuo {
+  height: 50px;
+  overflow: hidden;
+}
+.icon {
+  height: 20px;
+  position: relative;
+  top: 5px;
+}
+.icon-font {
+  font-size: 12px;
+  margin-left: 5px;
+}
+.tuihuo {
+  display: flex;
+  border-bottom: 5px solid #f5f5f5;
+  position: relative;
+  top: 0;
+  padding: 0;
+}
+.tuihuo-item {
+  flex: 1;
+  text-align: center;
+  line-height: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

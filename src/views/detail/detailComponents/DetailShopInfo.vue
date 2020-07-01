@@ -1,5 +1,5 @@
 <template>
-  <div id="shopInfo">
+  <div v-if="Object.keys(shop).length !== 0" id="shopInfo">
     <div class="logo">
       <img :src="shop.logo" alt class="logo_img" />
       <span class="title">{{shop.name}}</span>
@@ -55,7 +55,6 @@ export default {
 </script>
 <style scoped>
 #shopInfo {
-  height: 1000px;
   padding: 0 10px;
 }
 .logo {
