@@ -24,9 +24,7 @@ export default {
       }
     }
   },
-  created() {
-    console.log(this.DetailGoods);
-  },
+  created() {},
   data() {
     return {
       imgLength: 0,

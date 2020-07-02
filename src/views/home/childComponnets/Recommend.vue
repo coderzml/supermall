@@ -17,7 +17,7 @@ export default {
   conponents: {}
 };
 </script>
-<style>
+<style scoped>
 .recommends {
   display: flex;
   padding: 15px 0 25px 0;

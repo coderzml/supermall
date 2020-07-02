@@ -117,8 +117,8 @@ export default {
   },
   // 路由处于活跃时 滑动到位置
   activated() {
-    // console.log(this.scrollTop);
     // this.$refs.scroll.scrollTo(0, this.scrollTop, 0);
+    // this.$refs.scroll.refresh();
   },
   // 路由处于不活跃时 记录当时的位置
   deactivated() {

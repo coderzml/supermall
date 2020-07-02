@@ -17,6 +17,9 @@
           </tr>
         </table>
       </div>
+      <div class="info-img" v-if="DetailParam.image.length !== 0">
+        <img :src="DetailParam.image" alt />
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +50,7 @@ export default {
 }
 .param1 table {
   width: 100%;
+  border-collapse: collapse;
 }
 .borderBottom {
   border-bottom: 1px solid #ccc;
@@ -60,10 +64,12 @@ export default {
   flex: 1;
 }
 .param2Item1 {
-  flex: 1;
+  /* flex: 1; */
+  width: 70px;
 }
 .param2Item2 {
-  flex: 1;
+  /* flex: 1; */
   color: red;
+  font-size: 14px;
 }
 </style>

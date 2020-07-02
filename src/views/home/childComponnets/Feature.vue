@@ -11,7 +11,7 @@ export default {
   conponents: {}
 };
 </script>
-<style>
+<style scoped>
 .faeture img {
   width: 100%;
 }

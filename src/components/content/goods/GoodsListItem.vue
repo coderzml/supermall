@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item" @click="detail">
     <a>
-      <img :src="goodsItem.show.img" alt @load="ItemImgLoad" />
+      <img :src="showImg" alt @load="ItemImgLoad" />
       <div class="goods-info">
         <p>{{goodsItem.title}}</p>
         <span>{{goodsItem.price}}</span>
@@ -14,17 +14,30 @@
 <script>
 export default {
   props: {
-    goodsItem: Object
+    goodsItem: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   components: {},
   methods: {
     // 发送事件
     ItemImgLoad() {
-      // console.log(11);
-      this.$bus.$emit("ItemImgLoad");
+      if (this.$route.path.indexOf("/detail")) {
+        this.$bus.$emit("ItemImgLoadDetail");
+      } else if (this.$route.path.indexOf("/home")) {
+        this.$bus.$emit("ItemImgLoad");
+      }
     },
     detail() {
       this.$router.push("/detail/" + this.goodsItem.iid);
+    }
+  },
+  computed: {
+    showImg() {
+      return this.goodsItem.image || this.goodsItem.show.img;
     }
   }
 };

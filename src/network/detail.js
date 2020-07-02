@@ -7,6 +7,11 @@ export function getDetail(iid) {
     }
   })
 }
+export function getDetailRecommended() {
+  return request({
+    url: "http://152.136.185.210:8000/api/n3/recommend",
+  })
+}
 // 整合数据 
 export class Goods {
   constructor(itemInfo, columns, shopInfo) {

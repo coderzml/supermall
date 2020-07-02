@@ -7,6 +7,8 @@
       <DetailShopInfo :shop="shop"></DetailShopInfo>
       <DetailGoodsInfo :DetailGoods="DetailGoods" @imgLoad="_imgLoad"></DetailGoodsInfo>
       <DetailParamInfo :DetailParam="DetailParam"></DetailParamInfo>
+      <DetailCommentInfo :DetailComment="DetailComment"></DetailCommentInfo>
+      <GoodsList :goods="DetailRecommended"></GoodsList>
     </Scroll>
   </div>
 </template>
@@ -14,7 +16,13 @@
 <script>
 import DetailNav from "./detailComponents/DtailNav";
 // 引入网络请求
-import { getDetail, Goods, Shop, GoodsParam } from "../../network/detail";
+import {
+  getDetail,
+  Goods,
+  Shop,
+  GoodsParam,
+  getDetailRecommended
+} from "../../network/detail";
 // 引入轮播
 import DetailSwiper from "./detailComponents/DetailSwiper";
 // 引入Info
@@ -22,6 +30,9 @@ import DetailBaseInfo from "./detailComponents/DetailBaseInfo";
 import DetailShopInfo from "./detailComponents/DetailShopInfo";
 import DetailGoodsInfo from "./detailComponents/DetailGoodsInfo";
 import DetailParamInfo from "./detailComponents/DetailParamInfo";
+import DetailCommentInfo from "./detailComponents/DetailCommentInfo";
+// 推荐模块 引入了Goods模块
+import GoodsList from "components/content/goods/GoodsList";
 // 引入滚动
 import Scroll from "components/common/scroll/Scroll";
 export default {
@@ -33,26 +44,10 @@ export default {
       Goods: {},
       shop: {},
       DetailGoods: {},
-      DetailParam: {}
+      DetailParam: {},
+      DetailComment: {},
+      DetailRecommended: []
     };
-  },
-  created() {
-    // 传入ID
-    this.id = this.$route.params.id;
-    // 获取数据
-    getDetail(this.id).then(result => {
-      let data = result.result;
-      this.topImages = data.itemInfo.topImages;
-      this.Goods = new Goods(data.itemInfo, data.columns, data.shopInfo);
-      this.shop = new Shop(data.shopInfo);
-      this.DetailGoods = data.detailInfo;
-      console.log(data);
-      this.DetailParam = new GoodsParam(
-        data.itemParams.info,
-        data.itemParams.rule
-      );
-      console.log(this.DetailParam);
-    });
   },
   components: {
     DetailNav,
@@ -61,7 +56,43 @@ export default {
     DetailShopInfo,
     Scroll,
     DetailGoodsInfo,
-    DetailParamInfo
+    DetailParamInfo,
+    DetailCommentInfo,
+    GoodsList
+  },
+  created() {
+    // 传入ID
+    this.id = this.$route.params.id;
+    // 获取详情数据
+    getDetail(this.id).then(result => {
+      let data = result.result;
+      // 轮播图数据
+      this.topImages = data.itemInfo.topImages;
+      // 产品数据
+      this.Goods = new Goods(data.itemInfo, data.columns, data.shopInfo);
+      // 店铺数据
+      this.shop = new Shop(data.shopInfo);
+      // 产品详情数据
+      this.DetailGoods = data.detailInfo;
+      // 产品参数数据
+      this.DetailParam = new GoodsParam(
+        data.itemParams.info,
+        data.itemParams.rule
+      );
+      // 参数评价数据
+      this.DetailComment = data.rate.list[0];
+    });
+    // 请求推荐数据
+    getDetailRecommended().then(res => {
+      this.DetailRecommended = res.data.list;
+    });
+  },
+  mounted() {
+    console.log(123);
+
+    this.$bus.$on("ItemImgLoadDetail", () => {
+      console.log("详情页监听");
+    });
   },
   methods: {
     _imgLoad() {
