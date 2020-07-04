@@ -65,7 +65,8 @@ import { getHomeData, getHomeGoods } from "network/home";
 // scroll
 import scroll from "components/common/scroll/Scroll";
 // 工具
-import { debounce } from "common/utils";
+// import { debounce } from "common/utils";
+import { ItemMixin } from "common/mixin";
 export default {
   data() {
     return {
@@ -83,6 +84,7 @@ export default {
       scrollTop: 0
     };
   },
+  mixins: [ItemMixin],
   components: {
     NavBar,
     TabControl,
@@ -102,13 +104,14 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {
-    // 监听图片加载完毕
-    let refresh = debounce(this.$refs.scroll.refresh, 300);
-    this.$bus.$on("ItemImgLoad", () => {
-      // 每当接受请求 调用重新计算scroll高度
-      // this.$refs.scroll && this.$refs.scroll.refresh();
-      refresh();
-    });
+    // 监听图片加载完毕（这里用混入做的）
+    // let refresh = debounce(this.$refs.scroll.refresh, 300);
+    // this.ItemImgLoadData = () => {
+    //   // 每当接受请求 调用重新计算scroll高度
+    //   // this.$refs.scroll && this.$refs.scroll.refresh();
+    //   refresh();
+    // };
+    // this.$bus.$on("ItemImgLoad", this.ItemImgLoadData);
     // 事件总线的方式
     // this.$bus.$on("SwiperImgLoad", () => {
     //   console.log(123);
@@ -123,6 +126,7 @@ export default {
   // 路由处于不活跃时 记录当时的位置
   deactivated() {
     this.scrollTop = this.$refs.scroll.scroll.y;
+    this.$bus.$off("ItemImgLoad", this.ItemImgLoadData);
   },
   // upload() {
   //   console.log(456);

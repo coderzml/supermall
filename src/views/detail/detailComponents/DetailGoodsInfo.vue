@@ -34,10 +34,13 @@ export default {
   components: {},
   methods: {
     imgItemLoad() {
+      // 第一种方案
       // this.num++;
-      if (++this.num === this.imgLength) {
-        this.$emit("imgLoad");
-      }
+      // if (++this.num === this.imgLength) {
+      //   this.$emit("imgLoad");
+      // }
+      // 第二种方案mixin
+      this.$emit("imgLoad");
     }
   },
   // 监视（这样写的好处的 不用频繁对比）

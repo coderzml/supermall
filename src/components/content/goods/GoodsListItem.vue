@@ -25,11 +25,12 @@ export default {
   methods: {
     // 发送事件
     ItemImgLoad() {
-      if (this.$route.path.indexOf("/detail")) {
-        this.$bus.$emit("ItemImgLoadDetail");
-      } else if (this.$route.path.indexOf("/home")) {
-        this.$bus.$emit("ItemImgLoad");
-      }
+      // if (this.$route.path.indexOf("/detail")) {
+      //   this.$bus.$emit("ItemImgLoadDetail");
+      // } else if (this.$route.path.indexOf("/home")) {
+      //   this.$bus.$emit("ItemImgLoad");
+      // }
+      this.$bus.$emit("ItemImgLoad");
     },
     detail() {
       this.$router.push("/detail/" + this.goodsItem.iid);
