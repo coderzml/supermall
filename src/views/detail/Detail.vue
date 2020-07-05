@@ -10,6 +10,8 @@
       <DetailCommentInfo ref="comment" :DetailComment="DetailComment"></DetailCommentInfo>
       <GoodsList ref="recommend" :goods="DetailRecommended"></GoodsList>
     </Scroll>
+    <DetailBottomBar @addCar="addCart"></DetailBottomBar>
+    <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop>
   </div>
 </template>
 
@@ -31,13 +33,14 @@ import DetailShopInfo from "./detailComponents/DetailShopInfo";
 import DetailGoodsInfo from "./detailComponents/DetailGoodsInfo";
 import DetailParamInfo from "./detailComponents/DetailParamInfo";
 import DetailCommentInfo from "./detailComponents/DetailCommentInfo";
+import DetailBottomBar from "./detailComponents/DetailBottomBar";
 // 推荐模块 引入了Goods模块
 import GoodsList from "components/content/goods/GoodsList";
 // 引入滚动
 import Scroll from "components/common/scroll/Scroll";
 //引入防抖
 import { debounce } from "common/utils";
-import { ItemMixin } from "common/mixin";
+import { ItemMixin, BackTopMixin } from "common/mixin";
 export default {
   name: "Detail",
   data() {
@@ -55,7 +58,7 @@ export default {
       curentIndex: 0
     };
   },
-  mixins: [ItemMixin],
+  mixins: [ItemMixin, BackTopMixin],
   components: {
     DetailNav,
     DetailSwiper,
@@ -65,7 +68,8 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
-    GoodsList
+    GoodsList,
+    DetailBottomBar
   },
   created() {
     // 传入ID
@@ -109,7 +113,7 @@ export default {
       this.tempTopY.push(this.$refs.params.$el.offsetTop);
       this.tempTopY.push(this.$refs.comment.$el.offsetTop);
       this.tempTopY.push(this.$refs.recommend.$el.offsetTop);
-      console.log(this.tempTopY);
+      this.tempTopY.push(Number.MAX_VALUE);
     }, 300);
   },
   mounted() {
@@ -139,7 +143,6 @@ export default {
       this.offsetTopDebounce();
     },
     DetailNavClick(index) {
-      console.log(index);
       if (index <= 2) {
         this.$refs.scroll.scrollTo(0, -this.tempTopY[index] + 40, 300);
       } else {
@@ -148,18 +151,40 @@ export default {
     },
     // 判断滑动位置
     scrollPosition(position) {
+      this.BackTopOffsetTop(position);
       let positionY = -position.y + 44;
       // console.log(positionY);
       // [44, 5518, 6261, 6509]
-      if (positionY < this.tempTopY[1]) {
-        this.$refs.Nav.currentIndex = 0;
-      } else if (positionY > this.tempTopY[1] && positionY < this.tempTopY[2]) {
-        this.$refs.Nav.currentIndex = 1;
-      } else if (positionY > this.tempTopY[2] && positionY < this.tempTopY[3]) {
-        this.$refs.Nav.currentIndex = 2;
-      } else if (positionY > this.tempTopY[3] - 50) {
-        this.$refs.Nav.currentIndex = 3;
+      // 第一种方法
+      // if (positionY < this.tempTopY[1]) {
+      //   this.$refs.Nav.currentIndex = 0;
+      // } else if (positionY > this.tempTopY[1] && positionY < this.tempTopY[2]) {
+      //   this.$refs.Nav.currentIndex = 1;
+      // } else if (positionY > this.tempTopY[2] && positionY < this.tempTopY[3]) {
+      //   this.$refs.Nav.currentIndex = 2;
+      // } else if (positionY > this.tempTopY[3]) {
+      //   this.$refs.Nav.currentIndex = 3;
+      // }
+      // 第二种方法
+      for (let i = 0; i < this.tempTopY.length; i++) {
+        if (
+          // this.curentIndex !== i &&
+          positionY >= this.tempTopY[i] &&
+          positionY <= this.tempTopY[i + 1]
+        ) {
+          // this.curentIndex = i;
+          this.$refs.Nav.currentIndex = i;
+        }
       }
+    },
+    addCart() {
+      const CarInfo = {};
+      CarInfo.id = this.id;
+      CarInfo.image = this.topImages[0];
+      CarInfo.title = this.Goods.title;
+      CarInfo.desc = this.Goods.desc;
+      CarInfo.price = this.Goods.realPrice;
+      this.$store.dispatch("addCart", CarInfo);
     }
   }
 };
@@ -178,6 +203,6 @@ export default {
   height: 100vh;
 }
 .centant {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 58px);
 }
 </style>
