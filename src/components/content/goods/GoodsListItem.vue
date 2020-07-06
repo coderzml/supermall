@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item" @click="detail">
+  <div v-if="Object.keys(goodsItem).length != 0" class="goods-item" @click="detail">
     <a>
       <img :src="showImg" alt @load="ItemImgLoad" />
       <div class="goods-info">

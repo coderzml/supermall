@@ -14,7 +14,10 @@ export default {
   name: "DetailSwiper",
   props: {
     topImages: {
-      type: Array
+      type: Array,
+      defaule() {
+        return [];
+      }
     }
   },
   data() {

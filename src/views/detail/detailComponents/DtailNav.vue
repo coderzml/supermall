@@ -34,6 +34,7 @@ export default {
     },
     back() {
       this.$router.back();
+      this.$bus.$emit("refresh");
     }
   }
 };

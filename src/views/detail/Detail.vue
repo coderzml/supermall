@@ -123,6 +123,10 @@ export default {
     //   refresh();
     // };
     // this.$bus.$on("ItemImgLoad", this.ItemImgLoadData);
+    this.$bus.$on("refresh", () => {
+      // this.$refs.scroll.refresh();
+      console.log(123456789);
+    });
   },
   // 以为Detail被列为了 不重构对象 所以 路由的不活跃函数检测不到
   deactivated() {

@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    CarInfo: [],
+    CarInfoList: [],
+    isAll: true
   },
   // mutations 最好都做单一的事情 复杂的事情交给Actions
   mutations: {
@@ -13,7 +14,8 @@ export default new Vuex.Store({
       payload.count++;
     },
     addToCar(state, payload) {
-      state.CarInfo.push(payload)
+      payload.isChecked = true;
+      state.CarInfoList.push(payload)
     }
 
   },
@@ -21,18 +23,26 @@ export default new Vuex.Store({
     // 传值
     addCart(context, payload) {
       // 判断不能添加重复商品(细品)
-      let Info = context.state.CarInfo.find(item => payload.id == item.id);
+      let Info = context.state.CarInfoList.find(item => payload.id == item.id);
       if (Info) {
         // Info.count += 1;
         context.commit('couter', Info)
       } else {
         context.commit('addToCar', payload)
-        // state.CarInfo.push(payload);
+        // state.CarInfoList.push(payload);
         payload.count = 1;
       }
-      console.log(context.state.CarInfo);
+      console.log(context.state.CarInfoList);
     }
   },
   modules: {
+  },
+  getters: {
+    CarListLength(state) {
+      return state.CarInfoList.length;
+    },
+    CartList(state) {
+      return state.CarInfoList;
+    }
   }
 })
