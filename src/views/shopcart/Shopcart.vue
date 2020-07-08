@@ -9,7 +9,7 @@
       <CarList></CarList>
     </Scroll>
     <!-- 汇总区域 -->
-    <CartBottomBar></CartBottomBar>
+    <CartBottomBar @goPrice="goPrice"></CartBottomBar>
   </div>
 </template>
 
@@ -34,11 +34,14 @@ export default {
     //   return this.$store.getters.CarList;
     // },
     // 高级用法 数组用法
-    ...mapGetters(["CarListLength"])
+    ...mapGetters(["CarListLength", "CartList"])
     // 对象用法
     // ...mapGetters({
     //   name: "CarListLength"
     // })
+  },
+  methods: {
+    goPrice() {}
   }
 };
 </script>

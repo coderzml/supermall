@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      isAll: null
+      // isAll: null
     };
   },
   components: {
@@ -50,9 +50,10 @@ export default {
       // 去反
       this.ItemInfo.isChecked = !this.ItemInfo.isChecked;
       // 判断length
-      this.isAll = this.sumCount == this.$store.state.CarInfoList.length;
-      this.$store.state.isAll = this.isAll;
-      console.log(this.$store.state.isAll);
+      this.$store.state.isAll =
+        this.sumCount === this.$store.state.CarInfoList.length;
+      // this.$store.state.isAll = this.isAll;
+      // console.log(this.$store.state.isAll);
       // this.$bus.$emit("clickAll");
     }
   }

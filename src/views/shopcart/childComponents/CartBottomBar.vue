@@ -5,7 +5,7 @@
       <span>全选</span>
     </div>
     <div class="center">合计：￥{{sumPrice}}</div>
-    <div class="right">去结算({{sumCount}})</div>
+    <div class="right" @click="goPrice">去结算({{sumCount}})</div>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import Checked from "./checked";
 export default {
   data() {
     return {
-      isActive: false
+      // isActive: this.$store.state.isAll
     };
   },
   components: { Checked },
@@ -30,20 +30,17 @@ export default {
       return this.$store.state.CarInfoList.filter(item => {
         return item.isChecked;
       }).length;
+    },
+    isActive() {
+      return this.$store.state.isAll;
     }
   },
-  updated() {
-    // console.log(111);
-    // console.log(this.sumCount == this.$store.state.CarInfoList.length);
-    // this.$bus.$on("clickAll", () => {
-    this.isActive = this.$store.state.isAll;
-    // });
-  },
+
   methods: {
     clickAll() {
       // this.isActive = this.$store.state.isAll;
       // console.log(this.$store.state.CarInfoList);
-      console.log(!this.$store.state.isAll);
+      // console.log(!this.$store.state.isAll);
       // 点击全选按钮的时候先给自己的值取消掉（取反）
       // this.isActive = !this.$store.state.isAll;
       // 让所有的列表item都不显示 （取反）
@@ -54,6 +51,13 @@ export default {
       // 改变总的isAll（vuex的）
       this.$store.state.isAll = !this.isActive;
       // this.isActive = this.$store.state.isAll;
+    },
+    goPrice() {
+      if (this.sumCount !== 0) {
+        this.$toast.show("正在结算");
+      } else {
+        this.$toast.show("请选择商品");
+      }
     }
   }
 };

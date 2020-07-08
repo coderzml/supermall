@@ -12,6 +12,7 @@
     </Scroll>
     <DetailBottomBar @addCar="addCart"></DetailBottomBar>
     <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop>
+    <!-- <Toast :massage="massage" :isShow="isShow"></Toast> -->
   </div>
 </template>
 
@@ -41,6 +42,8 @@ import Scroll from "components/common/scroll/Scroll";
 //引入防抖
 import { debounce } from "common/utils";
 import { ItemMixin, BackTopMixin } from "common/mixin";
+// toast
+import Toast from "components/common/toast/Toast";
 export default {
   name: "Detail",
   data() {
@@ -55,7 +58,9 @@ export default {
       DetailRecommended: [],
       tempTopY: [],
       offsetTopDebounce: null,
-      curentIndex: 0
+      curentIndex: 0,
+      massage: "",
+      isShow: false
     };
   },
   mixins: [ItemMixin, BackTopMixin],
@@ -69,7 +74,8 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     GoodsList,
-    DetailBottomBar
+    DetailBottomBar,
+    Toast
   },
   created() {
     // 传入ID
@@ -124,8 +130,9 @@ export default {
     // };
     // this.$bus.$on("ItemImgLoad", this.ItemImgLoadData);
     this.$bus.$on("refresh", () => {
+      // 这里没用
       // this.$refs.scroll.refresh();
-      console.log(123456789);
+      // console.log(123456789);
     });
   },
   // 以为Detail被列为了 不重构对象 所以 路由的不活跃函数检测不到
@@ -188,7 +195,20 @@ export default {
       CarInfo.title = this.Goods.title;
       CarInfo.desc = this.Goods.desc;
       CarInfo.price = this.Goods.realPrice;
-      this.$store.dispatch("addCart", CarInfo);
+      // this.$store.dispatch("addCart", CarInfo);
+      // 找不到Promise
+      this.$store.dispatch("addCart", CarInfo).then(res => {
+        console.log(res);
+        // this.massage = res;
+        // this.isShow = true;
+        // setTimeout(() => {
+        //   this.isShow = false;
+        // }, 1500);
+        // 封装的插件
+        this.$toast.show(res, 1500);
+        console.log(this.$toast);
+      });
+      // console.log("商品加入购物车成功");
     }
   }
 };

@@ -28,9 +28,19 @@ export default {
     return {};
   },
   components: {},
+  computed: {
+    sumCount() {
+      return this.$store.state.CarInfoList.filter(item => {
+        return item.isChecked;
+      }).length;
+    }
+  },
   methods: {
     ClickAddCar() {
       this.$emit("addCar");
+      this.$store.state.isAll =
+        this.sumCount === this.$store.state.CarInfoList.length;
+      console.log(this.$store.state.isAll + "Car");
     }
   }
 };
